@@ -1,4 +1,4 @@
-## ----segmentation_simulation1--------------------------------------------
+## ----segmentation_simulation1-------------------------------------------------
 library(glmtree)
 data = generateData(n = 1000, scenario = "no tree", visualize = TRUE)
 
@@ -8,7 +8,7 @@ test = data[-int_train,]
 data = data[int_train,]
 
 
-## ----segmentation_pca1---------------------------------------------------
+## ----segmentation_pca1--------------------------------------------------------
 library(FactoMineR)
 mixed = PCA(data[,c("x1","x2")])
 
@@ -31,14 +31,14 @@ normalizedGini(test$y,pred)
 plot(mixed, choix = 'ind', label = "none")
 
 
-## ----segmentation_mob1---------------------------------------------------
+## ----segmentation_mob1--------------------------------------------------------
 if (require(partykit, quietly = TRUE)) {
   mob_data = partykit::glmtree(formula = y ~ x1 + x2 | x1 + x2, data = data, family = binomial)
   plot(mob_data)
   normalizedGini(test$y, predict(mob_data,test))
 }
 
-## ----segmentation_glmtree1, warning=FALSE--------------------------------
+## ----segmentation_glmtree1, warning=FALSE-------------------------------------
 
 tree = glmtree::glmtree(x = data[,c("x1", "x2")], y = data$y)
 
@@ -63,7 +63,7 @@ for (j in levels(data$c_map)) {
 normalizedGini(test$y,pred)
 
 
-## ----segmentation_simulation2--------------------------------------------
+## ----segmentation_simulation2-------------------------------------------------
 data = generateData(n = 1000, scenario = "tree", visualize = TRUE)
 
 int_train = sample.int(n = 1000, size = 0.2*1000)
@@ -71,7 +71,7 @@ int_train = sample.int(n = 1000, size = 0.2*1000)
 test = data[-int_train,]
 data = data[int_train,]
 
-## ----segmentation_pca2---------------------------------------------------
+## ----segmentation_pca2--------------------------------------------------------
 mixed = FAMD(data[,c("x1","x2","x3")])
 
 dim_famd = predict(mixed,test)$coord[,"Dim 1"] < 0
@@ -85,14 +85,14 @@ for (j in c(TRUE,FALSE)) {
 
 normalizedGini(test$y,pred)
 
-## ----segmentation_mob2, warning=FALSE, message=FALSE---------------------
+## ----segmentation_mob2, warning=FALSE, message=FALSE--------------------------
 if (require(partykit, quietly = TRUE)) {
   mob_data = partykit::glmtree(formula = y ~ x1 + x2 +x3 | x1 + x2 + x3, data = data, family = binomial)
   plot(mob_data)
   normalizedGini(test$y, predict(mob_data,test))
 }
 
-## ----segmentation_glmtree2, warning=FALSE--------------------------------
+## ----segmentation_glmtree2, warning=FALSE-------------------------------------
 
 tree = glmtree::glmtree(x = data[,c("x1", "x2", "x3")], y = data$y)
 
